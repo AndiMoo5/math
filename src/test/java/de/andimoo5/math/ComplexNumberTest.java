@@ -136,13 +136,13 @@ class ComplexNumberTest {
     @Test
     void modulus() {
         z.set(3,4);
-        assertEquals(5.0, ComplexNumber.modulus(z));
+        assertEquals(5.0, ComplexNumber.mod(z));
     }
 
     @Test
     void argument() {
-        z.set(1, 1);
-        assertEquals(Math.PI / 4, ComplexNumber.argument(z));
+        z.set(3, 4);
+        assertEquals(0.9272952180016122, ComplexNumber.arg(z));
     }
 
     @Test
@@ -161,5 +161,35 @@ class ComplexNumberTest {
     void cos() {
         z.set(1, 2);
         assertEquals(new ComplexNumber(2.0327230070196656, -3.0518977991518), ComplexNumber.cos(z));
+    }
+
+    @Test
+    void sqrt() {
+        z.set(3, 4);
+        assertEquals(new ComplexNumber(2, 1), ComplexNumber.sqrt(z));
+    }
+
+    @Test
+    void log() {
+        z.set(1, 1);
+        assertEquals(new ComplexNumber(Math.log(Math.sqrt(2)), 0.7853981633974483), ComplexNumber.log(z));
+    }
+
+    @Test
+    void asin() {
+        z.set(1, 1);
+        assertEquals(new ComplexNumber(0.6662394324925153, 1.0612750619050357), ComplexNumber.asin(z));
+    }
+
+    @Test
+    void acos() {
+        z.set(1, 1);
+        assertEquals(new ComplexNumber(0.9045568943023815, -1.0612750619050355), ComplexNumber.acos(z));
+    }
+
+    @Test
+    void atan() {
+        z.set(1, 1);
+        assertEquals(new ComplexNumber(1.0172219678978514, 0.40235947810852507), ComplexNumber.atan(z));
     }
 }
