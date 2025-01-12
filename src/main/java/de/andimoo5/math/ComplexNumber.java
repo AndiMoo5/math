@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
  *     <li>Arithmetic Operations ({@link #sum(ComplexNumber, ComplexNumber)  addition}, {@link #diff(ComplexNumber, ComplexNumber) subtraction},
  *          {@link #prod(ComplexNumber, ComplexNumber) multiplication}, {@link #diff(ComplexNumber, ComplexNumber) division})</li>
  *     <li>Complex Operations ({@link #conjugate(ComplexNumber) conjugate}, {@link #modulus(ComplexNumber) modulus (absolute, magnitude)},
- *          {@link #phase(ComplexNumber) phase (argument, angle)}, {@link #reciprocal(ComplexNumber) reciprocal (multiplicative inverse)})</li>
+ *          {@link #argument(ComplexNumber) argument (angle)}, {@link #reciprocal(ComplexNumber) reciprocal (multiplicative inverse)})</li>
  *     <li>Mathematical Functions ({@link #exp(ComplexNumber) exp}, {@link  #pow(ComplexNumber, int) pow})</li>
  *     <li>Trigonometric Operations ({@link #sin(ComplexNumber) sin}, {@link #cos(ComplexNumber) cos}, {@link #tan(ComplexNumber) tan})</li>
  * </ul>
@@ -141,8 +141,8 @@ public class ComplexNumber extends Number implements Comparable<ComplexNumber> {
     public static @NotNull String toString(@NotNull ComplexNumber z) {
         if(z.imaginary == 0) return String.valueOf(z.real);
         if(z.real == 0) return z.imaginary + "i";
-        if(z.imaginary < 0) return String.valueOf(z.real) + z.imaginary + "i";
-        return z.real + "-" + z.imaginary + "i";
+        if(z.imaginary < 0) return String.valueOf(z.real) + String.valueOf(z.imaginary) + "i";
+        return z.real + "+" + z.imaginary + "i";
     }
 
     /**
@@ -225,9 +225,9 @@ public class ComplexNumber extends Number implements Comparable<ComplexNumber> {
      * compare both complex numbers as it's the most comparable value of a complex number due to its matrix-like nature.
      * @param z the {@code ComplexNumber} to be compared to
      * @return  <ul>
-     *              <li><i>-1</i>: if {@code z1} < {@code z2},</li>
-     *              <li><i>0</i>: if {@code z1} = {@code z2},</li>
-     *              <li><i>1</i>: if {@code z1} > {@code z2}.</li>
+     *              <li><i>-1</i>: if {@code this} < {@code z},</li>
+     *              <li><i>0</i>: if {@code this} = {@code z},</li>
+     *              <li><i>1</i>: if {@code this} > {@code z}.</li>
      *          </ul>
      */
     public int compareTo(@NotNull ComplexNumber z){
@@ -302,8 +302,8 @@ public class ComplexNumber extends Number implements Comparable<ComplexNumber> {
      */
     @Contract("_, _ -> new")
     public static @NotNull ComplexNumber division(@NotNull ComplexNumber z1, @NotNull ComplexNumber z2) {
-        double u = (z1.real * z2.real + z1.imaginary * z2.imaginary) / (z2.real * z2.real + z1.imaginary * z1.imaginary);
-        double v = (z1.imaginary * z2.real - z1.real * z2.imaginary) / (z2.real * z2.real + z1.imaginary * z1.imaginary);
+        double u = (z1.real * z2.real + z1.imaginary * z2.imaginary) / (z2.real * z2.real + z2.imaginary * z2.imaginary);
+        double v = (z1.imaginary * z2.real - z1.real * z2.imaginary) / (z2.real * z2.real + z2.imaginary * z2.imaginary);
         return new ComplexNumber(u, v);
     }
 
@@ -331,17 +331,15 @@ public class ComplexNumber extends Number implements Comparable<ComplexNumber> {
      * @return  the modulus of {@code z}, represented by a {@code double}
      */
     public static double modulus(@NotNull ComplexNumber z) {
-        double u = z.real;
-        double v = z.imaginary * z.imaginary;
-        return Math.sqrt(u + v);
+        return Math.sqrt(z.real * z.real + z.imaginary * z.imaginary);
     }
 
     /**
-     * Calculates the {@code phase (argument / angle)} of the {@code ComplexNumber} {@code z}.
+     * Calculates the {@code argument (angle)} of the {@code ComplexNumber} {@code z}.
      * @param z an instance of {@code ComplexNumber}
-     * @return  the phase of {@code z} in radians, represented by a {@code double}
+     * @return  the argument of {@code z} in radians, represented by a {@code double}
      */
-    public static double phase(@NotNull ComplexNumber z) {
+    public static double argument(@NotNull ComplexNumber z) {
         return Math.atan2(z.real, z.imaginary);
     }
 
